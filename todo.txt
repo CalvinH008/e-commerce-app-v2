@@ -1,0 +1,85 @@
+✅ TODO PROJECT — PHP MVC OOP (INDUSTRI MODE)
+🧱 PHASE 0 — PERSIAPAN (WAJIB SELESAI)
+
+1. Buat struktur folder MVC (DONE via CMD)✅
+2. Setup virtual host / localhost✅
+3. Pastikan public/index.php bisa diakses✅
+4. Aktifkan error reporting (DEV MODE)✅
+
+⚙️ PHASE 1 — CORE SYSTEM (FONDASI OTAK)
+
+Kalau phase ini jelek, semua di atasnya sampah
+
+1. Routing✅
+2. Buat class Router✅
+3. Support GET & POST✅
+4. Support controller@method✅
+5. Support middleware
+6. Base MVC✅
+7. Base Controller✅
+8. Method view()✅
+9. Base Model
+10. Koneksi database (PDO)
+11. Session
+12. Session class
+13. Flash message
+
+🔐 PHASE 2 — AUTHENTICATION
+
+1. Register user
+2. Login user
+3. Logout
+4. Password hashing
+5. Session login
+6. Guest middleware
+7. Auth middleware
+
+🧑‍⚖️ PHASE 3 — ROLE & MIDDLEWARE
+
+1. Role user & admin
+2. Role middleware
+3. Proteksi route admin
+4. Redirect unauthorized access
+
+🛒 PHASE 4 — USER FLOW
+
+1. List produk
+2. Detail produk
+3. Add to cart (session)
+4. Update cart
+4. Remove cart item
+
+💳 PHASE 5 — CHECKOUT & PAYMENT
+
+1. Checkout page
+2. Create order
+3. Create payment
+4. Payment status (pending)
+5. Order status sync
+
+🧑‍💼 PHASE 6 — ADMIN DASHBOARD
+
+1. Admin dashboard page
+
+2. CRUD produk
+3. Lihat semua order
+4. Verifikasi pembayaran
+5. Update payment status
+6. Statistik sederhana
+
+🧼 PHASE 7 — REFACTOR & QUALITY
+
+1. Pisahkan logic & view
+2. Hapus duplicate code
+3. Validasi input
+4. Error handling
+5. Security basic
+6. Naming konsisten
+
+🚀 PHASE 8 — FINAL CHECK
+
+1. Semua route terlindungi middleware
+2. Tidak ada SQL di Controller
+3. Tidak ada logic di View
+4. Folder rapi
+5. README project

@@ -3,7 +3,7 @@ session_start();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
- 
+
 require_once __DIR__ . '/../app/Core/Autoload.php';
 
 use App\Core\Router;
@@ -12,19 +12,28 @@ $router = new Router();
 
 /*
 |--------------------------------------------------------------------------
-| REGISTER ROUTES
+| PUBLIC / GUEST ROUTES
 |--------------------------------------------------------------------------
 */
-
 $router->get('/', 'HomeController@index');
 
-$router->middleware(['AuthMiddleware']);
-$router->get('/dashboard', 'HomeController@index');
+$router->get('/register', 'AuthController@registerForm', ['GuestMiddleware']);
+$router->post('/register', 'AuthController@register', ['GuestMiddleware']);
+
+$router->get('/login', 'AuthController@loginForm', ['GuestMiddleware']);
+$router->post('/login', 'AuthController@login', ['GuestMiddleware']);
+
+/*
+|--------------------------------------------------------------------------
+| AUTHENTICATED ROUTES
+|--------------------------------------------------------------------------
+*/
+$router->get('/dashboard', 'HomeController@index', ['AuthMiddleware']);
+$router->get('/logout', 'AuthController@logout', ['AuthMiddleware']);
 
 /*
 |--------------------------------------------------------------------------
 | RUN ROUTER
 |--------------------------------------------------------------------------
 */
-
 $router->dispatch();

@@ -6,7 +6,8 @@ use PDO;
 
 class Model{
     protected static PDO $db;
-    public static function setDB(PDO $pdo){
-        self::$db = $pdo;
+
+    public static function init(){
+        self::$db = Database::connect();
     }
 }

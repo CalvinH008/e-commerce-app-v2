@@ -36,10 +36,10 @@ Kalau phase ini jelek, semua di atasnya sampah
 
 🧑‍⚖️ PHASE 3 — ROLE & MIDDLEWARE
 
-1. Role user & admin
-2. Role middleware
-3. Proteksi route admin
-4. Redirect unauthorized access
+1. Role user & admin✅
+2. Role middleware✅
+3. Proteksi route admin✅
+4. Redirect unauthorized access✅
 
 🛒 PHASE 4 — USER FLOW
 

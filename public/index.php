@@ -33,6 +33,13 @@ $router->get('/logout', 'AuthController@logout', ['AuthMiddleware']);
 
 /*
 |--------------------------------------------------------------------------
+| ADMIN ROUTES (Butuh Login + Role Admin)
+|--------------------------------------------------------------------------
+*/
+$router->get('/admin/dashboard', 'AdminController@index', ['AuthMiddleware', 'RoleMiddleware']);
+$router->get('/admin/products', 'AdminController@products', ['AuthMiddleware', 'RoleMiddleware']);
+/*
+|--------------------------------------------------------------------------
 | RUN ROUTER
 |--------------------------------------------------------------------------
 */

@@ -43,11 +43,11 @@ Kalau phase ini jelek, semua di atasnya sampah
 
 🛒 PHASE 4 — USER FLOW
 
-1. List produk
-2. Detail produk
-3. Add to cart (session)
-4. Update cart
-4. Remove cart item
+1. List produk✅
+2. Detail produk✅
+3. Add to cart (session)✅
+4. Update cart✅
+4. Remove cart item✅
 
 💳 PHASE 5 — CHECKOUT & PAYMENT
 

@@ -17,6 +17,9 @@ $router = new Router();
 */
 $router->get('/', 'HomeController@index');
 
+$router->get('/products', 'ProductController@index');
+$router->get('/product/detail', 'ProductController@show');
+
 $router->get('/register', 'AuthController@registerForm', ['GuestMiddleware']);
 $router->post('/register', 'AuthController@register', ['GuestMiddleware']);
 

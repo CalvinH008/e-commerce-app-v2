@@ -9,18 +9,26 @@ class Product extends Model{
     // ambil semua product
     public static function getAll(){
         self::init();
-        $stmt = self::$db->query("SELECT * FROM products ORDER BY created_by DESC");
+        $stmt = self::$db->query("SELECT * FROM products ORDER BY created_at DESC");
         return $stmt->fetchAll();
     }
 
     // cari produk berdasarkan id
-    public static function find(int $id){
-        self::init();
-        $stmt = self::$db->query("SELECT * FROM products WHERE id = :id LIMIT 1");
-        $stmt->execute([':id => $id']);
-        return $stmt->fetch();
+    public static function find(int $id) {
+    self::init();
+    
+    try {
+        $sql = "SELECT * FROM products WHERE id = :id LIMIT 1";
+        $stmt = self::$db->prepare($sql);
+        $stmt->execute([':id' => $id]);
+        $result = $stmt->fetch();
+        
+        return $result;
+        
+    } catch (\PDOException $e) {
+        die("Error di Product::find() - " . $e->getMessage());
     }
-
+}
     // edit produk 
     public static function edit(int $id, array $data){
         self::init();

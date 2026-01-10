@@ -13,7 +13,7 @@
         .product-price { font-size: 32px; color: #e74c3c; font-weight: bold; margin-bottom: 15px; }
         .product-stock { font-size: 16px; color: #666; margin-bottom: 20px; }
         .product-description { line-height: 1.6; color: #555; margin-bottom: 30px; }
-        .btn { display: inline-block; padding: 12px 30px; text-decoration: none; border-radius: 4px; margin-right: 10px; }
+        .btn { display: inline-block; padding: 12px 30px; text-decoration: none; border-radius: 4px; margin-right: 10px; border: none; cursor: pointer; font-size: 14px; }
         .btn-primary { background: #3498db; color: white; }
         .btn-primary:hover { background: #2980b9; }
         .btn-secondary { background: #95a5a6; color: white; }
@@ -50,10 +50,16 @@
         </div>
         
         <?php if($product['stock'] > 0): ?>
-            <a href="#" class="btn btn-primary">Tambah ke Keranjang</a>
+            <form method="POST" action="/e-commerce-app/public/cart/add" style="display: inline;">
+                <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                <label>Jumlah:</label>
+                <input type="number" name="quantity" value="1" min="1" max="<?php echo $product['stock']; ?>" style="width: 80px; padding: 10px; margin: 0 10px;">
+                <button type="submit" class="btn btn-primary">Tambah ke Keranjang</button>
+            </form>
         <?php else: ?>
             <button class="btn btn-secondary" disabled>Stok Habis</button>
         <?php endif; ?>
+        
         <a href="/e-commerce-app/public/products" class="btn btn-secondary">Kembali</a>
     </div>
 </body>

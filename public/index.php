@@ -7,6 +7,7 @@ error_reporting(E_ALL);
 require_once __DIR__ . '/../app/Core/Autoload.php';
 
 use App\Core\Router;
+use App\Middleware\AuthMiddleware;
 
 $router = new Router();
 
@@ -34,6 +35,12 @@ $router->post('/login', 'AuthController@login', ['GuestMiddleware']);
 $router->get('/dashboard', 'HomeController@index', ['AuthMiddleware']);
 $router->get('/logout', 'AuthController@logout', ['AuthMiddleware']);
 
+$router->get('/cart', 'CartController@index', ['AuthMiddleware']);
+$router->post('/cart/add', 'CartController@add', ['AuthMiddleware']);
+$router->post('/cart/update', 'CartController@update', ['AuthMiddleware']);
+$router->post('/cart/remove', 'CartController@remove', ['AuthMiddleware']);
+$router->post('/cart/clear', 'CartController@clear', ['AuthMiddleware']);
+
 /*
 |--------------------------------------------------------------------------
 | ADMIN ROUTES (Butuh Login + Role Admin)
@@ -46,4 +53,5 @@ $router->get('/admin/products', 'AdminController@products', ['AuthMiddleware', '
 | RUN ROUTER
 |--------------------------------------------------------------------------
 */
+
 $router->dispatch();

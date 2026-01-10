@@ -41,6 +41,11 @@ $router->post('/cart/update', 'CartController@update', ['AuthMiddleware']);
 $router->post('/cart/remove', 'CartController@remove', ['AuthMiddleware']);
 $router->post('/cart/clear', 'CartController@clear', ['AuthMiddleware']);
 
+$router->get('/checkout', 'CheckoutController@index', ['AuthMiddleware']);
+$router->post('/checkout/process', 'CheckoutController@process', ['AuthMiddleware']);
+
+$router->get('/order/detail', 'OrderController@detail', ['AuthMiddleware']);
+$router->get('/order/history', 'OrderController@history', ['AuthMiddleware']);
 /*
 |--------------------------------------------------------------------------
 | ADMIN ROUTES (Butuh Login + Role Admin)

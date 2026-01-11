@@ -52,7 +52,20 @@ $router->get('/order/history', 'OrderController@history', ['AuthMiddleware']);
 |--------------------------------------------------------------------------
 */
 $router->get('/admin/dashboard', 'AdminController@index', ['AuthMiddleware', 'RoleMiddleware']);
+
+// product management
 $router->get('/admin/products', 'AdminController@products', ['AuthMiddleware', 'RoleMiddleware']);
+$router->get('/admin/products/create', 'AdminController@createProduct', ['AuthMiddleware', 'RoleMiddleware']);
+$router->post('/admin/products/store', 'AdminController@storeProduct', ['AuthMiddleware', 'RoleMiddleware']);
+$router->get('/admin/products/edit', 'AdminController@editProduct', ['AuthMiddleware', 'RoleMiddleware']);
+$router->post('/admin/products/update', 'AdminController@updateProduct', ['AuthMiddleware', 'RoleMiddleware']);
+$router->post('/admin/products/delete', 'AdminController@deleteProduct', ['AuthMiddleware', 'RoleMiddleware']);
+
+// Order management
+$router->get('/admin/orders', 'AdminController@orders', ['AuthMiddleware', 'RoleMiddleware']);
+$router->get('/admin/orders/detail', 'AdminController@orderDetail', ['AuthMiddleware', 'RoleMiddleware']);
+$router->post('/admin/orders/update-status', 'AdminController@updateOrderStatus', ['AuthMiddleware', 'RoleMiddleware']);
+$router->post('/admin/payments/update-status', 'AdminController@updatePaymentStatus', ['AuthMiddleware', 'RoleMiddleware']);
 /*
 |--------------------------------------------------------------------------
 | RUN ROUTER

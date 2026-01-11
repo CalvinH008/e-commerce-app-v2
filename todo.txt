@@ -51,11 +51,11 @@ Kalau phase ini jelek, semua di atasnya sampah
 
 💳 PHASE 5 — CHECKOUT & PAYMENT
 
-1. Checkout page
-2. Create order
-3. Create payment
-4. Payment status (pending)
-5. Order status sync
+1. Checkout page✅
+2. Create order✅
+3. Create payment✅
+4. Payment status (pending)✅
+5. Order status sync✅
 
 🧑‍💼 PHASE 6 — ADMIN DASHBOARD
 
@@ -83,3 +83,5 @@ Kalau phase ini jelek, semua di atasnya sampah
 3. Tidak ada logic di View
 4. Folder rapi
 5. README project
+
+

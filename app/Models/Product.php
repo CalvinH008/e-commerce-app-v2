@@ -51,17 +51,21 @@ class Product extends Model{
     }   
 
     // tambah produk
-    public static function tambah(array $data){
+    public static function create(array $data){
         self::init();
-        $stmt = self::$db->prepare("INSERT INTO products (name, price, description, image, stock) VALUES (:name, :price, :description, :image, :stock)");
-        
-        return $stmt->execute([
-            ':name' => $data['name'],
-            ':price' => $data['price'],
-            ':description' => $data['description'],
-            ':image' => $data['image'] ?? null,
-            ':stock' => $data['stock'],
-        ]);
+        try{
+            $stmt = self::$db->prepare("INSERT INTO products (name, price, description, image, stock) VALUES (:name, :price, :description, :image, :stock)");
+            
+            return $stmt->execute([
+                ':name' => $data['name'],
+                ':price' => $data['price'],
+                ':description' => $data['description'],
+                ':image' => $data['image'] ?? null,
+                ':stock' => $data['stock'],
+            ]);
+        }catch(\PDOException $e){
+            die('gagal: ' . $e->getMessage());
+        }
     }
 
     // delete produk

@@ -138,6 +138,7 @@ class AdminController extends Controller{
     // halaman semua order
     public function orders(){
         $orders = Order::all();
+        
         $this->view('admin/orders/index', [
             'orders' => $orders
         ]);

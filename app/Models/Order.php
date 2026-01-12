@@ -46,6 +46,7 @@ class Order extends Model{
         self::init();
 
         $stmt = self::$db->prepare("SELECT * FROM orders JOIN users ON orders.user_id = users.id ORDER BY orders.created_at DESC");
+        $stmt->execute();        
         return $stmt->fetchAll();
     }
 
@@ -69,7 +70,7 @@ class Order extends Model{
         return $stmt->fetchAll();
     }
 
-    // insert order itemsP
+    // insert order items
     public static function addItem(array $data){
         self::init();
         

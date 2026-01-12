@@ -61,11 +61,11 @@ Kalau phase ini jelek, semua di atasnya sampah
 
 1. Admin dashboard page
 
-2. CRUD produk
-3. Lihat semua order
-4. Verifikasi pembayaran
-5. Update payment status
-6. Statistik sederhana
+2. CRUD produk✅
+3. Lihat semua order✅
+4. Verifikasi pembayaran✅
+5. Update payment status✅
+6. Statistik sederhana✅
 
 🧼 PHASE 7 — REFACTOR & QUALITY
 

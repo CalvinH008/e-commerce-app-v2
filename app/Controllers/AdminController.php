@@ -165,7 +165,7 @@ class AdminController extends Controller{
         $items = Order::getItems($orderId);
         $payment = Payment::findByOrder($orderId);
 
-        $this->view('admin/orders', [
+        $this->view('admin/orders/detail', [
             'order' => $order,
             'items' => $items,
             'payment' => $payment

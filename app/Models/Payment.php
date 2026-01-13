@@ -34,20 +34,28 @@ class Payment extends Model{
     public static function updateStatus(int $id, string $status){
         self::init();
 
-        $stmt = self::$db->prepare("UPDATE payments SET status = :status WHERE id = :id");
-        $stmt->execute([
-            ':status' => $status,
-            ':id' => $id
-        ]);
+        try {
+            $stmt = self::$db->prepare("UPDATE payments SET status = :status WHERE id = :id");
+            return $stmt->execute([
+                ':status' => $status,
+                ':id' => $id
+            ]);
+        } catch (\PDOException $e) {
+            throw new \Exception("Error update payment status: " . $e->getMessage());
+        }
     }
 
     public static function updateProof(int $id, string $proof){
         self::init();
 
-        $stmt = self::$db->prepare("UPDATE payments SET proof = :proof WHERE id = :id");
-        $stmt->execute([
-            'proof' => $proof,
-            ':id' => $id
-        ]);
+        try {
+            $stmt = self::$db->prepare("UPDATE payments SET proof = :proof WHERE id = :id");
+            return $stmt->execute([
+                ':proof' => $proof,
+                ':id' => $id
+            ]);
+        } catch (\PDOException $e) {
+            throw new \Exception("Error update payment proof: " . $e->getMessage());
+        }
     }
 }

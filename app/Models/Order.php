@@ -45,7 +45,7 @@ class Order extends Model{
     public static function all(){
         self::init();
 
-        $stmt = self::$db->prepare("SELECT * FROM orders JOIN users ON orders.user_id = users.id ORDER BY orders.created_at DESC");
+        $stmt = self::$db->prepare("SELECT orders.id, orders.user_id, orders.total, orders.status, orders.created_at, orders.updated_at, users.username, users.email FROM orders JOIN users ON orders.user_id = users.id ORDER BY orders.created_at DESC");
         $stmt->execute();        
         return $stmt->fetchAll();
     }
@@ -54,11 +54,15 @@ class Order extends Model{
     public static function updateStatus(int $id, string $status){
         self::init();
 
-        $stmt = self::$db->prepare("UPDATE orders SET status = :status WHERE id = :id");
-        $stmt->execute([
-            ':status' => $status,
-            ':id' => $id,
-        ]);
+        try {
+            $stmt = self::$db->prepare("UPDATE orders SET status = :status WHERE id = :id");
+            return $stmt->execute([
+                ':status' => $status,
+                ':id' => $id,
+            ]);
+        } catch (\PDOException $e) {
+            throw new \Exception("Error update order status: " . $e->getMessage());
+        }
     }
 
     // ambil orders item (detail produk)

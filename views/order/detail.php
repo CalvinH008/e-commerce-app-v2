@@ -3,119 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Pesanan #<?php echo $order['id']; ?></title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
-        .container { max-width: 900px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; }
-        h1 { margin-bottom: 10px; color: #333; }
-        .order-info { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
-        .order-info p { margin-bottom: 10px; }
-        .status { display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: 14px; font-weight: bold; }
-        .status.pending { background: #fff3cd; color: #856404; }
-        .status.processing { background: #cfe2ff; color: #084298; }
-        .status.completed { background: #d1e7dd; color: #0f5132; }
-        .status.cancelled { background: #f8d7da; color: #842029; }
-        .status.paid { background: #d1e7dd; color: #0f5132; }
-        table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
-        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #ddd; }
-        th { background: #f8f9fa; }
-        .total-section { text-align: right; padding: 20px; background: #f8f9fa; border-radius: 8px; margin-bottom: 30px; }
-        .total-price { font-size: 28px; font-weight: bold; color: #e74c3c; }
-        .payment-info { background: #fff3cd; padding: 20px; border-radius: 8px; margin-bottom: 30px; border-left: 4px solid #ffc107; }
-        .payment-info h3 { margin-bottom: 15px; color: #856404; }
-        .btn { padding: 12px 30px; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; }
-        .btn-primary { background: #3498db; color: white; }
-        .nav { margin-bottom: 20px; }
-        .nav a { color: #3498db; text-decoration: none; }
-        .flash { background: #d1e7dd; color: #0f5132; padding: 15px; border-radius: 4px; margin-bottom: 20px; }
-    </style>
+    <title>Detail Pesanan #<?= $order['id'] ?></title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="container">
-        <div class="nav">
-            <a href="/e-commerce-app/public/order/history">← Lihat Semua Pesanan</a> |
-            <a href="/e-commerce-app/public/products">Lanjut Belanja</a>
+<body class="bg-slate-50">
+    <!-- Navigation Header -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="<?= base_path('') ?>" class="text-xl font-semibold text-slate-900">
+                    E-Commerce-App
+                </a>
+                <a href="<?= base_path('order/history') ?>" class="text-slate-600 hover:text-slate-900 transition">← Kembali</a>
+            </div>
         </div>
+    </nav>
 
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <?php if(isset($_SESSION['flash'])): ?>
-            <div class="flash">
-                <?php 
-                echo $_SESSION['flash']; 
-                unset($_SESSION['flash']);
-                ?>
+            <div class="mb-8 p-4 bg-emerald-50 border border-emerald-200 rounded-lg">
+                <p class="text-emerald-700">
+                    <?= $_SESSION['flash']; unset($_SESSION['flash']); ?>
+                </p>
             </div>
         <?php endif; ?>
 
-        <h1>📦 Detail Pesanan #<?php echo $order['id']; ?></h1>
-        
-        <div class="order-info">
-            <p><strong>Tanggal Pesanan:</strong> <?php echo date('d/m/Y H:i', strtotime($order['created_at'])); ?></p>
-            <p><strong>Status Pesanan:</strong> 
-                <span class="status <?php echo $order['status']; ?>">
-                    <?php echo strtoupper($order['status']); ?>
-                </span>
-            </p>
-            <p><strong>Status Pembayaran:</strong> 
-                <span class="status <?php echo $payment['status']; ?>">
-                    <?php echo strtoupper($payment['status']); ?>
-                </span>
-            </p>
-            <p><strong>Metode Pembayaran:</strong> <?php echo strtoupper($payment['payment_method']); ?></p>
+        <div class="mb-8">
+            <h1 class="text-4xl font-bold text-slate-900">Pesanan #<?= $order['id'] ?></h1>
         </div>
 
-        <?php if($payment['status'] === 'pending'): ?>
-            <div class="payment-info">
-                <h3>⚠️ Menunggu Pembayaran</h3>
-                <p><strong>Silakan lakukan pembayaran:</strong></p>
-                
-                <?php if($payment['payment_method'] === 'transfer'): ?>
-                    <p>Transfer ke rekening:</p>
-                    <p><strong>BCA 1234567890</strong></p>
-                    <p>a.n. Toko Online</p>
-                    <p>Nominal: <strong>Rp <?php echo number_format($payment['amount'], 0, ',', '.'); ?></strong></p>
-                    <br>
-                    <p>Setelah transfer, upload bukti pembayaran di halaman ini.</p>
-                <?php elseif($payment['payment_method'] === 'cod'): ?>
-                    <p>Pesanan akan dikirim. Bayar saat barang diterima.</p>
-                <?php elseif($payment['payment_method'] === 'ewallet'): ?>
-                    <p>Scan QRIS atau transfer ke nomor e-wallet: <strong>08123456789</strong></p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            <!-- Order Info -->
+            <div class="md:col-span-2 space-y-6">
+                <!-- Status Card -->
+                <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                    <h3 class="text-lg font-semibold text-slate-900 mb-6">Informasi Pesanan</h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-sm text-slate-600">Tanggal Pesanan</p>
+                            <p class="font-medium text-slate-900"><?= date('d F Y, H:i', strtotime($order['created_at'])) ?></p>
+                        </div>
+
+                        <div>
+                            <p class="text-sm text-slate-600">Status Pesanan</p>
+                            <p class="mt-2">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold
+                                    <?php 
+                                        if($order['status'] === 'pending') echo 'bg-yellow-50 text-yellow-700';
+                                        elseif($order['status'] === 'processing') echo 'bg-blue-50 text-blue-700';
+                                        elseif($order['status'] === 'completed') echo 'bg-emerald-50 text-emerald-700';
+                                        elseif($order['status'] === 'cancelled') echo 'bg-red-50 text-red-700';
+                                    ?>
+                                ">
+                                    <?= ucfirst($order['status']) ?>
+                                </span>
+                            </p>
+                        </div>
+
+                        <div>
+                            <p class="text-sm text-slate-600">Status Pembayaran</p>
+                            <p class="mt-2">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold
+                                    <?php 
+                                        if($payment['status'] === 'pending') echo 'bg-yellow-50 text-yellow-700';
+                                        elseif($payment['status'] === 'verified') echo 'bg-emerald-50 text-emerald-700';
+                                        elseif($payment['status'] === 'failed') echo 'bg-red-50 text-red-700';
+                                    ?>
+                                ">
+                                    <?= ucfirst($payment['status']) ?>
+                                </span>
+                            </p>
+                        </div>
+
+                        <div>
+                            <p class="text-sm text-slate-600">Metode Pembayaran</p>
+                            <p class="font-medium text-slate-900"><?= ucfirst($payment['payment_method']) ?></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Status Alert -->
+                <?php if($payment['status'] === 'pending'): ?>
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+                        <h3 class="font-semibold text-yellow-900 mb-4">⏳ Menunggu Pembayaran</h3>
+                        
+                        <?php if($payment['payment_method'] === 'transfer'): ?>
+                            <div class="space-y-3 text-yellow-900">
+                                <p><strong>Silakan transfer ke rekening berikut:</strong></p>
+                                <div class="bg-white rounded p-4">
+                                    <p class="text-sm text-slate-600">Bank</p>
+                                    <p class="font-semibold text-lg">BCA 1234567890</p>
+                                    <p class="text-sm text-slate-600 mt-2">a.n. Toko Online</p>
+                                    <p class="text-sm text-slate-600 mt-4">Nominal Transfer</p>
+                                    <p class="font-semibold text-lg">Rp <?= number_format($payment['amount'], 0, ',', '.') ?></p>
+                                </div>
+                            </div>
+                        <?php elseif($payment['payment_method'] === 'cod'): ?>
+                            <p class="text-yellow-900">Pesanan akan dikirim. Silakan bayar saat barang diterima.</p>
+                        <?php elseif($payment['payment_method'] === 'ewallet'): ?>
+                            <p class="text-yellow-900">Scan QRIS atau transfer ke nomor e-wallet: <strong>08123456789</strong></p>
+                        <?php endif; ?>
+                    </div>
                 <?php endif; ?>
+
+                <!-- Order Items -->
+                <div class="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="p-6 border-b border-slate-200">
+                        <h3 class="text-lg font-semibold text-slate-900">Produk Pesanan</h3>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="bg-slate-50 border-b border-slate-200">
+                                    <th class="px-6 py-4 text-left text-sm font-semibold text-slate-900">Produk</th>
+                                    <th class="px-6 py-4 text-left text-sm font-semibold text-slate-900">Harga</th>
+                                    <th class="px-6 py-4 text-left text-sm font-semibold text-slate-900">Jumlah</th>
+                                    <th class="px-6 py-4 text-left text-sm font-semibold text-slate-900">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach($items as $item): ?>
+                                    <tr class="border-b border-slate-200 hover:bg-slate-50">
+                                        <td class="px-6 py-4 font-medium text-slate-900"><?= htmlspecialchars($item['product_name']) ?></td>
+                                        <td class="px-6 py-4 text-slate-900">Rp <?= number_format($item['price'], 0, ',', '.') ?></td>
+                                        <td class="px-6 py-4 text-slate-900"><?= $item['quantity'] ?></td>
+                                        <td class="px-6 py-4 font-semibold text-slate-900">Rp <?= number_format($item['subtotal'], 0, ',', '.') ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-        <?php endif; ?>
 
-        <h3>Detail Produk:</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Produk</th>
-                    <th>Harga</th>
-                    <th>Jumlah</th>
-                    <th>Subtotal</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach($items as $item): ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($item['product_name']); ?></td>
-                        <td>Rp <?php echo number_format($item['price'], 0, ',', '.'); ?></td>
-                        <td><?php echo $item['quantity']; ?></td>
-                        <td>Rp <?php echo number_format($item['subtotal'], 0, ',', '.'); ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+            <!-- Order Summary -->
+            <div>
+                <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6 sticky top-32">
+                    <h3 class="text-lg font-semibold text-slate-900 mb-6">Ringkasan</h3>
 
-        <div class="total-section">
-            <div style="font-size: 20px; margin-bottom: 10px;">Total Pembayaran:</div>
-            <div class="total-price">Rp <?php echo number_format($order['total'], 0, ',', '.'); ?></div>
+                    <div class="space-y-4 pb-6 border-b border-slate-200">
+                        <div class="flex justify-between text-slate-600">
+                            <span>Subtotal:</span>
+                            <span class="font-medium">Rp <?= number_format($order['total'], 0, ',', '.') ?></span>
+                        </div>
+                        <div class="flex justify-between text-slate-600">
+                            <span>Ongkir:</span>
+                            <span class="font-medium">Rp 0</span>
+                        </div>
+                    </div>
+
+                    <div class="pt-6">
+                        <div class="text-sm text-slate-600 mb-1">Total Pembayaran</div>
+                        <div class="text-3xl font-bold text-slate-900">Rp <?= number_format($order['total'], 0, ',', '.') ?></div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <?php if($payment['status'] === 'pending'): ?>
-            <p style="text-align: center; color: #666;">
-                <em>Pesanan akan diproses setelah pembayaran dikonfirmasi oleh admin.</em>
-            </p>
-        <?php endif; ?>
     </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-300 mt-16 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p>&copy; 2026 E-Commerce-App. Semua hak dilindungi.</p>
+        </div>
+    </footer>
 </body>
 </html>

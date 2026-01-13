@@ -4,63 +4,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Riwayat Pesanan</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
-        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; }
-        h1 { margin-bottom: 30px; color: #333; }
-        .nav { margin-bottom: 20px; }
-        .nav a { margin-right: 15px; color: #3498db; text-decoration: none; }
-        .order-card { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #3498db; }
-        .order-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
-        .order-id { font-weight: bold; font-size: 18px; }
-        .status { display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: 14px; font-weight: bold; }
-        .status.pending { background: #fff3cd; color: #856404; }
-        .status.processing { background: #cfe2ff; color: #084298; }
-        .status.completed { background: #d1e7dd; color: #0f5132; }
-        .status.cancelled { background: #f8d7da; color: #842029; }
-        .order-total { font-size: 20px; color: #e74c3c; font-weight: bold; margin: 10px 0; }
-        .order-date { color: #666; font-size: 14px; }
-        .btn { padding: 10px 20px; background: #3498db; color: white; text-decoration: none; border-radius: 4px; display: inline-block; margin-top: 10px; }
-        .btn:hover { background: #2980b9; }
-        .empty { text-align: center; padding: 60px 20px; color: #999; }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="container">
-        <div class="nav">
-            <a href="/e-commerce-app/public/products">← Lanjut Belanja</a>
-            <a href="/e-commerce-app/public/dashboard">Dashboard</a>
+<body class="bg-slate-50">
+    <!-- Navigation Header -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="<?= base_path('') ?>" class="text-xl font-semibold text-slate-900">
+                    E-Commerce-App
+                </a>
+                <div class="flex gap-6">
+                    <a href="<?= base_path('products') ?>" class="text-slate-600 hover:text-slate-900 transition">Produk</a>
+                    <a href="<?= base_path('dashboard') ?>" class="text-slate-600 hover:text-slate-900 transition">Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="mb-12">
+            <h1 class="text-4xl font-bold text-slate-900">Riwayat Pesanan</h1>
+            <p class="text-slate-600 mt-2">Lihat status semua pesanan Anda</p>
         </div>
 
-        <h1>📦 Riwayat Pesanan</h1>
-
         <?php if(empty($orders)): ?>
-            <div class="empty">
-                <h2>Belum ada pesanan</h2>
-                <p>Yuk belanja sekarang!</p>
-                <br>
-                <a href="/e-commerce-app/public/products" class="btn">Mulai Belanja</a>
+            <div class="bg-white rounded-lg border border-slate-200 p-16 text-center">
+                <p class="text-slate-600 text-xl mb-6">Belum ada pesanan</p>
+                <a href="<?= base_path('products') ?>" class="inline-block px-6 py-3 bg-slate-900 text-white font-semibold rounded-lg hover:bg-slate-800 transition">
+                    Mulai Belanja
+                </a>
             </div>
         <?php else: ?>
-            <?php foreach($orders as $order): ?>
-                <div class="order-card">
-                    <div class="order-header">
-                        <div class="order-id">Pesanan #<?php echo $order['id']; ?></div>
-                        <span class="status <?php echo $order['status']; ?>">
-                            <?php echo strtoupper($order['status']); ?>
-                        </span>
+            <div class="space-y-4">
+                <?php foreach($orders as $order): ?>
+                    <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6 hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-lg font-semibold text-slate-900 mb-1">
+                                    Pesanan #<?= $order['id'] ?>
+                                </h3>
+                                <p class="text-sm text-slate-600">
+                                    <?= date('d F Y, H:i', strtotime($order['created_at'])) ?>
+                                </p>
+                            </div>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold
+                                <?php 
+                                    if($order['status'] === 'pending') echo 'bg-yellow-50 text-yellow-700';
+                                    elseif($order['status'] === 'processing') echo 'bg-blue-50 text-blue-700';
+                                    elseif($order['status'] === 'completed') echo 'bg-emerald-50 text-emerald-700';
+                                    elseif($order['status'] === 'cancelled') echo 'bg-red-50 text-red-700';
+                                ?>
+                            ">
+                                <?= ucfirst($order['status']) ?>
+                            </span>
+                        </div>
+
+                        <div class="py-4 border-t border-b border-slate-200 mb-4">
+                            <p class="text-2xl font-bold text-slate-900">
+                                Rp <?= number_format($order['total'], 0, ',', '.') ?>
+                            </p>
+                        </div>
+
+                        <a href="<?= base_path('order/detail?id=' . $order['id']) ?>" class="inline-block px-6 py-2 bg-slate-900 text-white font-medium rounded-lg hover:bg-slate-800 transition">
+                            Lihat Detail
+                        </a>
                     </div>
-                    <div class="order-date">
-                        <?php echo date('d F Y, H:i', strtotime($order['created_at'])); ?>
-                    </div>
-                    <div class="order-total">
-                        Total: Rp <?php echo number_format($order['total'], 0, ',', '.'); ?>
-                    </div>
-                    <a href="/e-commerce-app/public/order/detail?id=<?php echo $order['id']; ?>" class="btn">Lihat Detail</a>
-                </div>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
+            </div>
         <?php endif; ?>
     </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-300 mt-16 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p>&copy; 2026 E-Commerce-App. Semua hak dilindungi.</p>
+        </div>
+    </footer>
 </body>
 </html>

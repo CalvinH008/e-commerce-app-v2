@@ -16,7 +16,7 @@ class AdminController extends Controller{
         $allOrders = Order::all();
         $totalRevenue = 0;
         foreach($allOrders as $order){
-            if($order['status'] !== 'canceled'){
+            if($order['status'] !== 'cancelled'){
                 $totalRevenue += $order['total'];
             }
         }
@@ -47,16 +47,28 @@ class AdminController extends Controller{
 
     // proses tambah produk
     public function storeProduct(){
-        $name = $_POST['name'];
-        $price = $_POST['price'];
-        $description = $_POST['description'] ?? '';
-        $image = $_POST['image'] ?? '';
+        $name = sanitize($_POST['name'] ?? '');
+        $price = $_POST['price'] ?? 0;
+        $description = sanitize($_POST['description'] ?? '');
+        $image = sanitize($_POST['image'] ?? '');
         $stock = $_POST['stock'] ?? 0;
 
         // validasi
-        if(empty($name) || $price <= 0){
-            $_SESSION['flash'] = 'Nama dan harga produk harus diisi';
-            header('location: /e-commerce-app/public/admin/products/create');
+        if(empty($name)){
+            $_SESSION['flash'] = 'Nama produk harus diisi';
+            header('location: ' . base_path('admin/products/create'));
+            exit;
+        }
+        
+        if(!validatePrice($price)){
+            $_SESSION['flash'] = 'Harga harus berupa angka positif';
+            header('location: ' . base_path('admin/products/create'));
+            exit;
+        }
+        
+        if(!validateStock($stock)){
+            $_SESSION['flash'] = 'Stok harus berupa angka';
+            header('location: ' . base_path('admin/products/create'));
             exit;
         }
 
@@ -69,7 +81,7 @@ class AdminController extends Controller{
         ]);
 
         $_SESSION['flash'] = 'Produk berhasil ditambahkan';
-        header('location: /e-commerce-app/public/admin/products');
+        header('location: ' . base_path('admin/products'));
         exit;
     }
 
@@ -79,7 +91,7 @@ class AdminController extends Controller{
 
         if(!$id){
             $_SESSION['flash'] = 'Produk tidak ditemukan';
-            header('location: /e-commerce-app/public/admin/products');
+            header('location: ' . base_path('admin/products'));
             exit;
         }
 
@@ -87,7 +99,7 @@ class AdminController extends Controller{
 
         if(!$product){
             $_SESSION['flash'] = 'Produk tidak ditemukan';
-            header('location: /e-commerce-app/public/admin/products');
+            header('location: ' . base_path('admin/products'));
             exit;
         }
 
@@ -98,24 +110,54 @@ class AdminController extends Controller{
 
     // proses update produk
      public function updateProduct(){
-        $id = $_GET['id'] ?? null;
+        $id = $_POST['id'] ?? null;
 
         if(!$id){
             $_SESSION['flash'] = 'Produk tidak ditemukan';
-            header('location: /e-commerce-app/public/admin/products');
+            header('location: ' . base_path('admin/products'));
+            exit;
+        }
+        
+        $name = sanitize($_POST['name'] ?? '');
+        $price = $_POST['price'] ?? 0;
+        $description = sanitize($_POST['description'] ?? '');
+        $image = sanitize($_POST['image'] ?? '');
+        $stock = $_POST['stock'] ?? 0;
+
+        // validasi
+        if(empty($name)){
+            $_SESSION['flash'] = 'Nama produk harus diisi';
+            header('location: ' . base_path('admin/products/edit?id=' . $id));
+            exit;
+        }
+        
+        if(!validatePrice($price)){
+            $_SESSION['flash'] = 'Harga harus berupa angka positif';
+            header('location: ' . base_path('admin/products/edit?id=' . $id));
+            exit;
+        }
+        
+        if(!validateStock($stock)){
+            $_SESSION['flash'] = 'Stok harus berupa angka';
+            header('location: ' . base_path('admin/products/edit?id=' . $id));
             exit;
         }
 
-        Product::edit($id, [
-            'name' => $_POST['name'],
-            'price' => $_POST['price'],
-            'description' => $_POST['description'],
-            'image' => $_POST['image'],
-            'stock' => $_POST['stock']
+        $result = Product::edit($id, [
+            'name' => $name,
+            'price' => $price,
+            'description' => $description,
+            'image' => $image,
+            'stock' => $stock
         ]);
 
-        $_SESSION['flash'] = 'Produk tidak diupdate';
-        header('location: /e-commerce-app/public/admin/products');
+        if($result){
+            $_SESSION['flash'] = 'Produk berhasil diupdate';
+            header('location: ' . base_path('admin/products'));
+        } else {
+            $_SESSION['flash'] = 'Gagal update produk, silakan coba lagi';
+            header('location: ' . base_path('admin/products/edit?id=' . $id));
+        }
         exit;
     }
     // Hapus produk
@@ -124,14 +166,14 @@ class AdminController extends Controller{
         
         if (!$id) {
             $_SESSION['flash'] = 'Produk tidak ditemukan';
-            header('Location: /e-commerce-app/public/admin/products');
+            header('Location: ' . base_path('admin/products'));
             exit;
         }
         
-        Product::hapus($id);
+        Product::delete($id);
         
         $_SESSION['flash'] = 'Produk berhasil dihapus';
-        header('Location: /e-commerce-app/public/admin/products');
+        header('Location: ' . base_path('admin/products'));
         exit;
     }
 
@@ -150,7 +192,7 @@ class AdminController extends Controller{
 
         if(!$orderId){
             $_SESSION['flash'] = 'Order tidak ditemukan';
-            header('location: /e-commerce-app/public/admin/orders');
+            header('location: ' . base_path('admin/orders'));
             exit;
         }
 
@@ -158,7 +200,7 @@ class AdminController extends Controller{
 
         if(!$order){
             $_SESSION['flash'] = 'Order tidak ditemukan';
-            header('location: /e-commerce-app/public/admin/orders');
+            header('location: ' . base_path('admin/orders'));
             exit;
         }
 
@@ -174,44 +216,52 @@ class AdminController extends Controller{
 
     // update status order
     public function updateOrderStatus(){
-        $orderId = $_POST['order_id'] ?? null;
-        $status = $_POST['status'] ?? null;
+        $orderId = (int) ($_POST['order_id'] ?? null);
+        $status = sanitize($_POST['status'] ?? '');
 
         if(!$orderId || !$status){
             $_SESSION['flash'] = 'Data tidak lengkap';
-            header('location: /e-commerce-app/public/admin/orders');
+            header('location: ' . base_path('admin/orders'));
             exit;
         }
 
-        Order::updateStatus($orderId, $status);
-
-        $_SESSION['flash'] = 'Status order berhasil di update';
-        header('location: /e-commerce-app/public/admin/orders/detail?id=' . $orderId);
+        try {
+            Order::updateStatus($orderId, $status);
+            $_SESSION['flash'] = 'Status order berhasil diupdate';
+            header('location: ' . base_path('admin/orders/detail?id=' . $orderId));
+        } catch (\Exception $e) {
+            $_SESSION['flash'] = 'Gagal update status order: ' . $e->getMessage();
+            header('location: ' . base_path('admin/orders/detail?id=' . $orderId));
+        }
         exit;
     }
 
     // update status payment (verifikasi pembayaran)
     public function updatePaymentStatus(){
-        $paymentId = $_POST['payment_id'] ?? null;
-        $status = $_POST['status'] ?? null;
+        $paymentId = (int) ($_POST['payment_id'] ?? null);
+        $status = sanitize($_POST['status'] ?? '');
+        $orderId = (int) ($_POST['order_id'] ?? null);
 
-        if(!$paymentId || !$status){
+        if(!$paymentId || !$status || !$orderId){
             $_SESSION['flash'] = 'Data tidak lengkap';
-            header('location: /e-commerce-app/public/admin/orders');
+            header('location: ' . base_path('admin/orders'));
             exit;
         } 
 
-        Payment::updateStatus($paymentId, $status);
+        try {
+            Payment::updateStatus($paymentId, $status);
 
-        // jika payment di approve(paid), update order status jadi processing
+            // jika payment di approve(paid), update order status jadi processing
+            if($status === 'paid'){
+                Order::updateStatus($orderId, 'processing');
+            }
 
-        if($status === 'paid'){
-            $payment = Payment::findByOrder($_POST['order_id']);
-            Order::updateStatus($_POST['order_id'], 'processing');
+            $_SESSION['flash'] = 'Status pembayaran berhasil diupdate';
+            header('location: ' . base_path('admin/orders/detail?id=' . $orderId));
+        } catch (\Exception $e) {
+            $_SESSION['flash'] = 'Gagal update pembayaran: ' . $e->getMessage();
+            header('location: ' . base_path('admin/orders/detail?id=' . $orderId));
         }
-
-        $_SESSION['flash'] = 'Status pembayaran berhasil diupdate';
-        header('location: /e-commerce-app/public/admin/orders/detail?id=' . $_POST['order_id']);
         exit;
     }
 }

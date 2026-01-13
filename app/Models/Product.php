@@ -32,22 +32,26 @@ class Product extends Model{
     // edit produk 
     public static function edit(int $id, array $data){
         self::init();
-        $stmt = self::$db->query("UPDATE products SET 
-                        name = :name,
-                        price = :price,
-                        description = :description,
-                        image = :image,
-                        stock = :stock
-                        WHERE id = :id");
+        try {
+            $stmt = self::$db->prepare("UPDATE products SET 
+                            name = :name,
+                            price = :price,
+                            description = :description,
+                            image = :image,
+                            stock = :stock
+                            WHERE id = :id");
 
-        return $stmt->execute([
-            ':id' => $id,
-            ':name' => $data['name'],
-            ':price' => $data['price'],
-            ':description' => $data['description'],
-            ':image' => $data['image'],
-            ':stock' => $data['stock']
-        ]);
+            return $stmt->execute([
+                ':id' => $id,
+                ':name' => $data['name'],
+                ':price' => $data['price'],
+                ':description' => $data['description'],
+                ':image' => $data['image'],
+                ':stock' => $data['stock']
+            ]);
+        } catch (\PDOException $e) {
+            die("Error di Product::edit() - " . $e->getMessage());
+        }
     }   
 
     // tambah produk
@@ -69,10 +73,19 @@ class Product extends Model{
     }
 
     // delete produk
-    public static function hapus(int $id){
+    public static function delete(int $id){
         self::init();
-        $stmt = self::$db->query("DELETE FROM products WHERE id = :id LIMIT 1");
-        return $stmt->execute([':id' => $id]);
+        try {
+            $stmt = self::$db->prepare("DELETE FROM products WHERE id = :id LIMIT 1");
+            return $stmt->execute([':id' => $id]);
+        } catch (\PDOException $e) {
+            die("Error di Product::delete() - " . $e->getMessage());
+        }
+    }
+    
+    // alias untuk backward compatibility
+    public static function hapus(int $id){
+        return self::delete($id);
     }
 
 }

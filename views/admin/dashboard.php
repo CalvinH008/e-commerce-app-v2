@@ -4,115 +4,153 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #f5f5f5; }
-        .header { background: #2c3e50; color: white; padding: 20px; }
-        .header h1 { font-size: 24px; }
-        .nav { background: #34495e; padding: 15px 20px; }
-        .nav a { color: white; text-decoration: none; margin-right: 20px; padding: 8px 15px; border-radius: 4px; }
-        .nav a:hover { background: #2c3e50; }
-        .nav a.active { background: #3498db; }
-        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
-        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }
-        .stat-card { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .stat-card h3 { color: #7f8c8d; font-size: 14px; margin-bottom: 10px; text-transform: uppercase; }
-        .stat-card .number { font-size: 36px; font-weight: bold; color: #2c3e50; }
-        .stat-card.blue .number { color: #3498db; }
-        .stat-card.green .number { color: #27ae60; }
-        .stat-card.orange .number { color: #e67e22; }
-        .recent-orders { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .recent-orders h2 { margin-bottom: 20px; color: #2c3e50; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ecf0f1; }
-        th { background: #f8f9fa; font-weight: bold; color: #2c3e50; }
-        .status { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; }
-        .status.pending { background: #fff3cd; color: #856404; }
-        .status.processing { background: #cfe2ff; color: #084298; }
-        .status.completed { background: #d1e7dd; color: #0f5132; }
-        .btn { padding: 8px 15px; background: #3498db; color: white; text-decoration: none; border-radius: 4px; font-size: 14px; }
-        .btn:hover { background: #2980b9; }
-        .flash { background: #d1e7dd; color: #0f5132; padding: 15px; border-radius: 4px; margin-bottom: 20px; }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="header">
-        <h1>🏪 Admin Dashboard - E-Commerce App</h1>
-    </div>
-    
-    <div class="nav">
-        <a href="/e-commerce-app/public/admin/dashboard" class="active">Dashboard</a>
-        <a href="/e-commerce-app/public/admin/products">Kelola Produk</a>
-        <a href="/e-commerce-app/public/admin/orders">Kelola Pesanan</a>
-        <a href="/e-commerce-app/public/products">Lihat Website</a>
-        <a href="/e-commerce-app/public/logout">Logout</a>
-    </div>
+<body class="bg-slate-50">
+    <div class="flex">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-slate-900 text-white min-h-screen fixed left-0 top-0">
+            <div class="p-6 border-b border-slate-700">
+                <h1 class="text-xl font-bold">E-Commerce-App</h1>
+                <p class="text-slate-400 text-sm mt-1">Admin Panel</p>
+            </div>
+            
+            <nav class="p-6 space-y-3">
+                <a href="<?= base_path('admin/dashboard') ?>" class="block px-4 py-3 rounded-lg bg-slate-800 text-white font-medium hover:bg-slate-700 transition">
+                    📊 Dashboard
+                </a>
+                <a href="<?= base_path('admin/products') ?>" class="block px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
+                    📦 Produk
+                </a>
+                <a href="<?= base_path('admin/orders') ?>" class="block px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
+                    🛒 Pesanan
+                </a>
+                <a href="<?= base_path('') ?>" class="block px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
+                    🌐 Website
+                </a>
+            </nav>
 
-    <div class="container">
+            <div class="absolute bottom-0 left-0 right-0 p-6 border-t border-slate-700">
+                <a href="<?= base_path('logout') ?>" class="block px-4 py-3 rounded-lg text-slate-300 hover:bg-red-900 hover:text-white transition text-center font-medium">
+                    🚪 Logout
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="ml-64 w-full">
+            <div class="px-6 py-12">
         <?php if(isset($_SESSION['flash'])): ?>
-            <div class="flash">
-                <?php 
-                echo $_SESSION['flash']; 
-                unset($_SESSION['flash']);
-                ?>
+            <div class="mb-8 p-4 bg-emerald-50 border border-emerald-200 rounded-lg">
+                <p class="text-emerald-700">
+                    <?= $_SESSION['flash']; unset($_SESSION['flash']); ?>
+                </p>
             </div>
         <?php endif; ?>
 
-        <div class="stats">
-            <div class="stat-card blue">
-                <h3>Total Produk</h3>
-                <div class="number"><?php echo $totalProducts; ?></div>
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Total Products -->
+            <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-slate-600 text-sm font-medium">Total Produk</p>
+                        <p class="text-4xl font-bold text-slate-900 mt-2"><?= $totalProducts ?></p>
+                    </div>
+                    <div class="w-14 h-14 bg-blue-50 rounded-lg flex items-center justify-center text-2xl">
+                        📦
+                    </div>
+                </div>
             </div>
-            
-            <div class="stat-card orange">
-                <h3>Total Pesanan</h3>
-                <div class="number"><?php echo $totalOrders; ?></div>
+
+            <!-- Total Orders -->
+            <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-slate-600 text-sm font-medium">Total Pesanan</p>
+                        <p class="text-4xl font-bold text-slate-900 mt-2"><?= $totalOrders ?></p>
+                    </div>
+                    <div class="w-14 h-14 bg-orange-50 rounded-lg flex items-center justify-center text-2xl">
+                        🛒
+                    </div>
+                </div>
             </div>
-            
-            <div class="stat-card green">
-                <h3>Total Revenue</h3>
-                <div class="number">Rp <?php echo number_format($totalRevenue, 0, ',', '.'); ?></div>
+
+            <!-- Total Revenue -->
+            <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-slate-600 text-sm font-medium">Total Revenue</p>
+                        <p class="text-3xl font-bold text-slate-900 mt-2">Rp <?= number_format($totalRevenue, 0, ',', '.') ?></p>
+                    </div>
+                    <div class="w-14 h-14 bg-emerald-50 rounded-lg flex items-center justify-center text-2xl">
+                        💰
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="recent-orders">
-            <h2>📦 Pesanan Terbaru</h2>
-            
+        <!-- Recent Orders -->
+        <div class="bg-white rounded-lg shadow-sm border border-slate-200">
+            <div class="p-6 border-b border-slate-200">
+                <h2 class="text-xl font-semibold text-slate-900">Pesanan Terbaru</h2>
+            </div>
+
             <?php if(empty($recentOrders)): ?>
-                <p style="color: #999; text-align: center; padding: 40px;">Belum ada pesanan</p>
+                <div class="p-12 text-center">
+                    <p class="text-slate-600">Belum ada pesanan</p>
+                </div>
             <?php else: ?>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Order ID</th>
-                            <th>Customer</th>
-                            <th>Total</th>
-                            <th>Status</th>
-                            <th>Tanggal</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach($recentOrders as $order): ?>
-                            <tr>
-                                <td>#<?php echo $order['id']; ?></td>
-                                <td><?php echo htmlspecialchars($order['username']); ?></td>
-                                <td>Rp <?php echo number_format($order['total'], 0, ',', '.'); ?></td>
-                                <td>
-                                    <span class="status <?php echo $order['status']; ?>">
-                                        <?php echo strtoupper($order['status']); ?>
-                                    </span>
-                                </td>
-                                <td><?php echo date('d/m/Y H:i', strtotime($order['created_at'])); ?></td>
-                                <td>
-                                    <a href="/e-commerce-app/public/admin/orders/detail?id=<?php echo $order['id']; ?>" class="btn">Detail</a>
-                                </td>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="bg-slate-50 border-b border-slate-200">
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-slate-900">Order ID</th>
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-slate-900">Customer</th>
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-slate-900">Total</th>
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-slate-900">Status</th>
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-slate-900">Tanggal</th>
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-slate-900">Aksi</th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            <?php endif; ?>
-        </div>
+                        </thead>
+                        <tbody>
+                            <?php foreach($recentOrders as $order): ?>
+                                <tr class="border-b border-slate-200 hover:bg-slate-50">
+                                    <td class="px-6 py-4 font-medium text-slate-900">#<?= $order['id'] ?></td>
+                                    <td class="px-6 py-4 text-slate-900"><?= htmlspecialchars($order['username']) ?></td>
+                                    <td class="px-6 py-4 font-semibold text-slate-900">Rp <?= number_format($order['total'], 0, ',', '.') ?></td>
+                                    <td class="px-6 py-4">
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold
+                                            <?php 
+                                                if($order['status'] === 'pending') echo 'bg-yellow-50 text-yellow-700';
+                                                elseif($order['status'] === 'processing') echo 'bg-blue-50 text-blue-700';
+                                                elseif($order['status'] === 'completed') echo 'bg-emerald-50 text-emerald-700';
+                                                elseif($order['status'] === 'cancelled') echo 'bg-red-50 text-red-700';
+                                            ?>
+                                        ">
+                                            <?= ucfirst($order['status']) ?>
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-slate-600 text-sm"><?= date('d/m/Y', strtotime($order['created_at'])) ?></td>
+                                    <td class="px-6 py-4">
+                                        <a href="<?= base_path('admin/orders/detail?id=' . $order['id']) ?>" class="text-blue-600 hover:text-blue-800 font-medium text-sm">
+                                            Lihat
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="p-6 border-t border-slate-200 bg-slate-50">
+                    <a href="<?= base_path('admin/orders') ?>" class="text-blue-600 hover:text-blue-800 font-medium">
+                        Lihat Semua Pesanan →
+                    </a>
+                </div>
+            </div>
+        </main>
     </div>
 </body>
 </html>
+            <?php endif; ?>

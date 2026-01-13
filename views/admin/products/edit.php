@@ -4,91 +4,123 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Produk - Admin</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #f5f5f5; }
-        .header { background: #2c3e50; color: white; padding: 20px; }
-        .header h1 { font-size: 24px; }
-        .nav { background: #34495e; padding: 15px 20px; }
-        .nav a { color: white; text-decoration: none; margin-right: 20px; padding: 8px 15px; border-radius: 4px; }
-        .nav a:hover { background: #2c3e50; }
-        .nav a.active { background: #3498db; }
-        .container { max-width: 800px; margin: 30px auto; padding: 0 20px; }
-        .form-container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .form-container h2 { margin-bottom: 25px; color: #2c3e50; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; color: #2c3e50; }
-        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; }
-        .form-group textarea { min-height: 100px; resize: vertical; }
-        .form-actions { display: flex; gap: 10px; margin-top: 25px; }
-        .btn { padding: 12px 30px; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; text-decoration: none; display: inline-block; }
-        .btn-primary { background: #f39c12; color: white; }
-        .btn-primary:hover { background: #d68910; }
-        .btn-secondary { background: #95a5a6; color: white; }
-        .btn-secondary:hover { background: #7f8c8d; }
-        .flash { background: #f8d7da; color: #842029; padding: 15px; border-radius: 4px; margin-bottom: 20px; }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="header">
-        <h1>🏪 Admin Dashboard - E-Commerce App</h1>
-    </div>
-    
-    <div class="nav">
-        <a href="/e-commerce-app/public/admin/dashboard">Dashboard</a>
-        <a href="/e-commerce-app/public/admin/products" class="active">Kelola Produk</a>
-        <a href="/e-commerce-app/public/admin/orders">Kelola Pesanan</a>
-        <a href="/e-commerce-app/public/products">Lihat Website</a>
-        <a href="/e-commerce-app/public/logout">Logout</a>
-    </div>
+<body class="bg-slate-50">
+    <div class="flex">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-slate-900 text-white min-h-screen fixed left-0 top-0">
+            <div class="p-6 border-b border-slate-700">
+                <h1 class="text-xl font-bold">E-Commerce-App</h1>
+                <p class="text-slate-400 text-sm mt-1">Admin Panel</p>
+            </div>
+            
+            <nav class="p-6 space-y-3">
+                <a href="<?= base_path('admin/dashboard') ?>" class="block px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
+                    📊 Dashboard
+                </a>
+                <a href="<?= base_path('admin/products') ?>" class="block px-4 py-3 rounded-lg bg-slate-800 text-white font-medium hover:bg-slate-700 transition">
+                    📦 Produk
+                </a>
+                <a href="<?= base_path('admin/orders') ?>" class="block px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
+                    🛒 Pesanan
+                </a>
+                <a href="<?= base_path('') ?>" class="block px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
+                    🌐 Website
+                </a>
+            </nav>
 
-    <div class="container">
+            <div class="absolute bottom-0 left-0 right-0 p-6 border-t border-slate-700">
+                <a href="<?= base_path('logout') ?>" class="block px-4 py-3 rounded-lg text-slate-300 hover:bg-red-900 hover:text-white transition text-center font-medium">
+                    🚪 Logout
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="ml-64 w-full">
+            <div class="px-6 py-8">
+                <div class="mb-8">
+                    <a href="<?= base_path('admin/products') ?>" class="text-slate-600 hover:text-slate-900 transition">← Kembali</a>
+                </div>
+
         <?php if(isset($_SESSION['flash'])): ?>
-            <div class="flash">
-                <?php 
-                echo $_SESSION['flash']; 
-                unset($_SESSION['flash']);
-                ?>
+            <div class="mb-8 p-4 bg-red-50 border border-red-200 rounded-lg">
+                <p class="text-red-700">
+                    <?= $_SESSION['flash']; unset($_SESSION['flash']); ?>
+                </p>
             </div>
         <?php endif; ?>
 
-        <div class="form-container">
-            <h2>✏️ Edit Produk</h2>
-            
-            <form method="POST" action="/e-commerce-app/public/admin/products/update">
-                <input type="hidden" name="id" value="<?php echo $product['id']; ?>">
+        <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-8">
+            <h2 class="text-3xl font-bold text-slate-900 mb-8">Edit Produk</h2>
 
-                <div class="form-group">
-                    <label>Nama Produk *</label>
-                    <input type="text" name="name" required value="<?php echo htmlspecialchars($product['name']); ?>">
+            <form method="POST" action="<?= base_path('admin/products/update') ?>" class="space-y-6">
+                <input type="hidden" name="id" value="<?= $product['id'] ?>">
+
+                <div>
+                    <label for="name" class="block text-sm font-medium text-slate-700 mb-2">Nama Produk *</label>
+                    <input 
+                        type="text" 
+                        name="name" 
+                        id="name"
+                        value="<?= htmlspecialchars($product['name']) ?>"
+                        required
+                        class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent outline-none transition text-slate-900"
+                    >
                 </div>
 
-                <div class="form-group">
-                    <label>Harga (Rp) *</label>
-                    <input type="number" name="price" required min="0" value="<?php echo $product['price']; ?>">
+                <div>
+                    <label for="price" class="block text-sm font-medium text-slate-700 mb-2">Harga (Rp) *</label>
+                    <input 
+                        type="number" 
+                        name="price" 
+                        id="price"
+                        value="<?= $product['price'] ?>"
+                        required
+                        min="0"
+                        step="1000"
+                        class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent outline-none transition text-slate-900"
+                    >
                 </div>
 
-                <div class="form-group">
-                    <label>Deskripsi</label>
-                    <textarea name="description"><?php echo htmlspecialchars($product['description']); ?></textarea>
+                <div>
+                    <label for="stock" class="block text-sm font-medium text-slate-700 mb-2">Stok (Unit) *</label>
+                    <input 
+                        type="number" 
+                        name="stock" 
+                        id="stock"
+                        value="<?= $product['stock'] ?>"
+                        required
+                        min="0"
+                        class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent outline-none transition text-slate-900"
+                    >
                 </div>
 
-                <div class="form-group">
-                    <label>Gambar (nama file)</label>
-                    <input type="text" name="image" value="<?php echo htmlspecialchars($product['image']); ?>">
+                <div>
+                    <label for="description" class="block text-sm font-medium text-slate-700 mb-2">Deskripsi</label>
+                    <textarea 
+                        name="description" 
+                        id="description"
+                        rows="5"
+                        class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent outline-none transition text-slate-900"
+                    ><?= htmlspecialchars($product['description']) ?></textarea>
                 </div>
 
-                <div class="form-group">
-                    <label>Stok *</label>
-                    <input type="number" name="stock" required min="0" value="<?php echo $product['stock']; ?>">
-                </div>
-
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Update Produk</button>
-                    <a href="/e-commerce-app/public/admin/products" class="btn btn-secondary">Batal</a>
+                <div class="flex gap-4 pt-4">
+                    <a href="<?= base_path('admin/products') ?>" class="flex-1 text-center px-6 py-3 border-2 border-slate-300 text-slate-900 font-medium rounded-lg hover:bg-slate-50 transition">
+                        Batal
+                    </a>
+                    <button 
+                        type="submit" 
+                        class="flex-1 px-6 py-3 bg-orange-600 text-white font-medium rounded-lg hover:bg-orange-700 transition"
+                    >
+                        Simpan Perubahan
+                    </button>
                 </div>
             </form>
-        </div>
+            </div>
+        </main>
     </div>
 </body>
 </html>

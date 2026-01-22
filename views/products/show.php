@@ -6,17 +6,18 @@
     <title><?= htmlspecialchars($product['name']) ?></title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-50">
+<body class="bg-white text-slate-800">
     <!-- Navigation Header -->
     <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <a href="<?= base_path('') ?>" class="text-xl font-semibold text-slate-900">
-                    E-Commerce-App
+                <a href="<?= base_path('') ?>" class="flex items-center gap-2">
+                    <img src="<?= base_path('images/logo.png') ?>" alt="Logo" class="h-8 w-8">
+                    <span class="text-xl font-bold text-emerald-800">E-Commerce-App</span>
                 </a>
-                <div class="flex gap-6">
-                    <a href="<?= base_path('products') ?>" class="text-slate-600 hover:text-slate-900 transition">Produk</a>
-                    <a href="<?= base_path('cart') ?>" class="text-slate-600 hover:text-slate-900 transition">Keranjang</a>
+                <div class="flex gap-6 text-sm font-medium">
+                    <a href="<?= base_path('products') ?>" class="hover:text-emerald-800">Produk</a>
+                    <a href="<?= base_path('cart') ?>" class="hover:text-emerald-800">Keranjang</a>
                 </div>
             </div>
         </div>
@@ -25,7 +26,7 @@
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <!-- Breadcrumb -->
         <div class="mb-8">
-            <a href="<?= base_path('products') ?>" class="text-slate-600 hover:text-slate-900 transition flex items-center gap-2">
+            <a href="<?= base_path('products') ?>" class="text-emerald-800 hover:text-emerald-900 transition flex items-center gap-2">
                 <span>←</span> Kembali ke Produk
             </a>
         </div>
@@ -33,8 +34,8 @@
         <div class="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 p-8">
                 <!-- Product Image -->
-                <div class="flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 rounded-lg h-96">
-                    <span class="text-slate-400 text-lg">
+                <div class="flex items-center justify-center bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-lg h-96">
+                    <span class="text-emerald-600 text-lg">
                         <?= htmlspecialchars($product['image'] ?? 'No Image') ?>
                     </span>
                 </div>
@@ -48,7 +49,7 @@
 
                         <!-- Price and Stock -->
                         <div class="mb-6 pb-6 border-b border-slate-200 space-y-3">
-                            <p class="text-4xl font-bold text-slate-900">
+                            <p class="text-4xl font-bold text-emerald-800">
                                 Rp <?= number_format($product['price'], 0, ',', '.') ?>
                             </p>
                             <p class="text-sm text-slate-600">
@@ -90,13 +91,13 @@
                                         value="1" 
                                         min="1" 
                                         max="<?= $product['stock'] ?>"
-                                        class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 outline-none text-slate-900"
+                                        class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-slate-900"
                                     >
                                 </div>
 
                                 <button 
                                     type="submit" 
-                                    class="w-full px-6 py-3 bg-slate-900 text-white font-semibold rounded-lg hover:bg-slate-800 transition duration-200"
+                                    class="w-full px-6 py-3 bg-emerald-800 text-white font-semibold rounded-lg hover:bg-emerald-900 transition duration-200"
                                 >
                                     Tambah ke Keranjang
                                 </button>
@@ -112,7 +113,7 @@
 
                         <a 
                             href="<?= base_path('products') ?>" 
-                            class="block text-center px-6 py-3 border-2 border-slate-300 text-slate-900 font-semibold rounded-lg hover:border-slate-900 hover:bg-slate-50 transition duration-200"
+                            class="block text-center px-6 py-3 border-2 border-emerald-800 text-emerald-800 font-semibold rounded-lg hover:bg-emerald-50 transition duration-200"
                         >
                             Lanjut Belanja
                         </a>
@@ -123,11 +124,10 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-slate-900 text-slate-300 mt-16 py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p>&copy; 2026 E-Commerce-App. Semua hak dilindungi.</p>
+    <footer class="border-t border-slate-200 py-10 mt-16">
+        <div class="max-w-7xl mx-auto px-6 text-sm text-slate-600 text-center">
+            © 2026 E-Commerce-App. All rights reserved.
         </div>
     </footer>
 </body>
-</html>
 </html>

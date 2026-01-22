@@ -6,15 +6,16 @@
     <title>Detail Pesanan #<?= $order['id'] ?></title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-50">
+<body class="bg-white text-slate-800">
     <!-- Navigation Header -->
     <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <a href="<?= base_path('') ?>" class="text-xl font-semibold text-slate-900">
-                    E-Commerce-App
+                <a href="<?= base_path('') ?>" class="flex items-center gap-2">
+                    <img src="<?= base_path('images/logo.png') ?>" alt="Logo" class="h-8 w-8">
+                    <span class="text-xl font-bold text-emerald-800">E-Commerce-App</span>
                 </a>
-                <a href="<?= base_path('order/history') ?>" class="text-slate-600 hover:text-slate-900 transition">← Kembali</a>
+                <a href="<?= base_path('order/history') ?>" class="text-emerald-800 hover:text-emerald-900 transition">← Kembali</a>
             </div>
         </div>
     </nav>
@@ -51,8 +52,8 @@
                                 <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold
                                     <?php 
                                         if($order['status'] === 'pending') echo 'bg-yellow-50 text-yellow-700';
-                                        elseif($order['status'] === 'processing') echo 'bg-blue-50 text-blue-700';
-                                        elseif($order['status'] === 'completed') echo 'bg-emerald-50 text-emerald-700';
+                                        elseif($order['status'] === 'processing') echo 'bg-emerald-50 text-emerald-700';
+                                        elseif($order['status'] === 'completed') echo 'bg-emerald-100 text-emerald-800';
                                         elseif($order['status'] === 'cancelled') echo 'bg-red-50 text-red-700';
                                     ?>
                                 ">
@@ -96,7 +97,7 @@
                                     <p class="font-semibold text-lg">BCA 1234567890</p>
                                     <p class="text-sm text-slate-600 mt-2">a.n. Toko Online</p>
                                     <p class="text-sm text-slate-600 mt-4">Nominal Transfer</p>
-                                    <p class="font-semibold text-lg">Rp <?= number_format($payment['amount'], 0, ',', '.') ?></p>
+                                    <p class="font-semibold text-lg text-emerald-800">Rp <?= number_format($payment['amount'], 0, ',', '.') ?></p>
                                 </div>
                             </div>
                         <?php elseif($payment['payment_method'] === 'cod'): ?>
@@ -116,7 +117,7 @@
                     <div class="overflow-x-auto">
                         <table class="w-full">
                             <thead>
-                                <tr class="bg-slate-50 border-b border-slate-200">
+                                <tr class="bg-emerald-50 border-b border-slate-200">
                                     <th class="px-6 py-4 text-left text-sm font-semibold text-slate-900">Produk</th>
                                     <th class="px-6 py-4 text-left text-sm font-semibold text-slate-900">Harga</th>
                                     <th class="px-6 py-4 text-left text-sm font-semibold text-slate-900">Jumlah</th>
@@ -125,11 +126,11 @@
                             </thead>
                             <tbody>
                                 <?php foreach($items as $item): ?>
-                                    <tr class="border-b border-slate-200 hover:bg-slate-50">
+                                    <tr class="border-b border-slate-200 hover:bg-emerald-50">
                                         <td class="px-6 py-4 font-medium text-slate-900"><?= htmlspecialchars($item['product_name']) ?></td>
                                         <td class="px-6 py-4 text-slate-900">Rp <?= number_format($item['price'], 0, ',', '.') ?></td>
                                         <td class="px-6 py-4 text-slate-900"><?= $item['quantity'] ?></td>
-                                        <td class="px-6 py-4 font-semibold text-slate-900">Rp <?= number_format($item['subtotal'], 0, ',', '.') ?></td>
+                                        <td class="px-6 py-4 font-semibold text-emerald-800">Rp <?= number_format($item['subtotal'], 0, ',', '.') ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -156,7 +157,7 @@
 
                     <div class="pt-6">
                         <div class="text-sm text-slate-600 mb-1">Total Pembayaran</div>
-                        <div class="text-3xl font-bold text-slate-900">Rp <?= number_format($order['total'], 0, ',', '.') ?></div>
+                        <div class="text-3xl font-bold text-emerald-800">Rp <?= number_format($order['total'], 0, ',', '.') ?></div>
                     </div>
                 </div>
             </div>
@@ -164,9 +165,9 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-slate-900 text-slate-300 mt-16 py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p>&copy; 2026 E-Commerce-App. Semua hak dilindungi.</p>
+    <footer class="border-t border-slate-200 py-10 mt-16">
+        <div class="max-w-7xl mx-auto px-6 text-sm text-slate-600 text-center">
+            © 2026 E-Commerce-App. All rights reserved.
         </div>
     </footer>
 </body>

@@ -6,27 +6,25 @@
     <title>Daftar - E-Commerce</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-50">
-    <!-- Navigation Header -->
-    <nav class="bg-white border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <a href="<?= base_path('') ?>" class="text-xl font-semibold text-slate-900">
-                    E-Commerce-App
-                </a>
-                <div class="flex gap-6">
-                    <a href="<?= base_path('products') ?>" class="text-slate-600 hover:text-slate-900 transition">Produk</a>
-                    <a href="<?= base_path('login') ?>" class="text-slate-600 hover:text-slate-900 transition">Masuk</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <div class="min-h-[calc(100vh-64px)] flex items-center justify-center px-4 py-12">
+<body class="bg-white text-slate-800">
+    
+    <div class="min-h-screen flex items-center justify-center px-4 py-12">
         <div class="w-full max-w-md">
-            <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-8">
-                <h1 class="text-2xl font-bold text-slate-900 mb-2">Buat Akun</h1>
-                <p class="text-slate-600 text-sm mb-8">Daftar untuk mulai berbelanja</p>
+            <div class="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+                <!-- Header with Logo -->
+                <div class="bg-emerald-800 p-6 flex items-center justify-center gap-3">
+                    <a href="<?= base_path('') ?>" class="flex items-center justify-center gap-3">
+                        <svg class="h-10 w-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8a1 1 0 0 0-1-1zm-9-1a2 2 0 1 1 4 0v1h-4V6zm-1 6h2v2H9v-2zm4 0h2v2h-2v-2z"/>
+                        </svg>
+                        <span class="text-2xl font-bold text-white">E-Commerce-App</span>
+                    </a>
+                </div>
+                
+                <!-- Form Content -->
+                <div class="p-8">
+                    <h1 class="text-2xl font-bold text-slate-900 mb-2">Buat Akun</h1>
+                    <p class="text-slate-600 text-sm mb-8">Daftar untuk mulai berbelanja</p>
 
                 <?php if(isset($_SESSION['flash'])): ?>
                     <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
@@ -45,7 +43,7 @@
                             id="username"
                             placeholder="username" 
                             required
-                            class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent outline-none transition text-slate-900"
+                            class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition text-slate-900"
                         >
                     </div>
 
@@ -57,7 +55,7 @@
                             id="email"
                             placeholder="nama@email.com" 
                             required
-                            class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent outline-none transition text-slate-900"
+                            class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition text-slate-900"
                         >
                     </div>
 
@@ -69,13 +67,13 @@
                             id="password"
                             placeholder="••••••••" 
                             required
-                            class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent outline-none transition text-slate-900"
+                            class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition text-slate-900"
                         >
                     </div>
 
                     <button 
                         type="submit" 
-                        class="w-full px-4 py-2 bg-slate-900 text-white font-medium rounded-lg hover:bg-slate-800 transition duration-200"
+                        class="w-full px-4 py-2 bg-emerald-800 text-white font-medium rounded-lg hover:bg-emerald-900 transition duration-200"
                     >
                         Daftar
                     </button>
@@ -83,10 +81,11 @@
 
                 <p class="text-center text-slate-600 text-sm mt-6">
                     Sudah punya akun? 
-                    <a href="<?= base_path('login') ?>" class="text-slate-900 font-semibold hover:underline">
+                    <a href="<?= base_path('login') ?>" class="text-emerald-800 font-semibold hover:underline">
                         Masuk di sini
                     </a>
                 </p>
+                </div>
             </div>
         </div>
     </div>

@@ -3,138 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Commerce-App - Online Store</title>
+    <title>E-Commerce-App</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-50">
-    <!-- Navigation Header -->
-    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <a href="<?= base_path('') ?>" class="text-2xl font-bold text-slate-900">
-                    E-Commerce-App
+
+<body class="bg-white text-slate-800">
+
+<!-- NAVBAR -->
+<nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="flex items-center justify-between h-16">
+
+            <a href="<?= base_path('') ?>" class="flex items-center gap-2">
+                <img src="<?= base_path('images/logo.png') ?>" alt="Logo" class="h-8 w-8">
+                <span class="text-xl font-bold text-emerald-800">E-Commerce-App</span>
+            </a>
+
+            <div class="hidden md:flex items-center gap-6 text-sm font-medium">
+
+                <a href="<?= base_path('products') ?>" class="hover:text-emerald-800">
+                    Produk
                 </a>
-                <div class="hidden md:flex gap-8">
-                    <a href="<?= base_path('products') ?>" class="text-slate-600 hover:text-slate-900 transition">Produk</a>
-                    <?php if(isset($_SESSION['user'])): ?>
-                        <a href="<?= base_path('cart') ?>" class="text-slate-600 hover:text-slate-900 transition">Keranjang</a>
-                        <a href="<?= base_path('dashboard') ?>" class="text-slate-600 hover:text-slate-900 transition">Dashboard</a>
-                        <?php if($_SESSION['user']['role'] === 'admin'): ?>
-                            <a href="<?= base_path('admin/dashboard') ?>" class="text-slate-600 hover:text-slate-900 transition">Admin</a>
-                        <?php endif; ?>
-                        <a href="<?= base_path('logout') ?>" class="text-slate-600 hover:text-slate-900 transition">Logout</a>
-                    <?php else: ?>
-                        <a href="<?= base_path('login') ?>" class="text-slate-600 hover:text-slate-900 transition">Masuk</a>
-                        <a href="<?= base_path('register') ?>" class="px-6 py-2 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition">Daftar</a>
+
+                <?php if(isset($_SESSION['user'])): ?>
+
+                    <a href="<?= base_path('cart') ?>" class="hover:text-emerald-800">Keranjang</a>
+                    <a href="<?= base_path('dashboard') ?>" class="hover:text-emerald-800">Dashboard</a>
+
+                    <?php if($_SESSION['user']['role'] === 'admin'): ?>
+                        <a href="<?= base_path('admin/dashboard') ?>" class="hover:text-emerald-800">Admin</a>
+                    <?php endif; ?>
+
+                    <a href="<?= base_path('logout') ?>"
+                       class="px-4 py-2 bg-emerald-800 text-white rounded-md hover:bg-emerald-900">
+                        Logout
+                    </a>
+
+                <?php else: ?>
+
+                    <a href="<?= base_path('login') ?>" class="hover:text-emerald-800">
+                        Masuk
+                    </a>
+
+                    <a href="<?= base_path('register') ?>"
+                       class="px-5 py-2 bg-emerald-800 text-white rounded-md hover:bg-emerald-900">
+                        Daftar
+                    </a>
+
+                <?php endif; ?>
+
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO (FULL SCREEN) -->
+<section class="min-h-screen flex items-center">
+    <div class="max-w-7xl mx-auto px-6 w-full">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+
+            <!-- TEXT -->
+            <div>
+                <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+                    Belanja Online<br class="hidden md:block">
+                    Lebih Mudah & Aman
+                </h1>
+
+                <p class="text-slate-600 text-lg mb-10 max-w-xl">
+                    Ribuan produk berkualitas, harga terbaik,
+                    dan pengiriman cepat ke seluruh Indonesia.
+                </p>
+
+                <div class="flex gap-4 flex-wrap">
+                    <a href="<?= base_path('products') ?>"
+                       class="px-8 py-3 bg-emerald-800 text-white rounded-lg font-semibold hover:bg-emerald-900">
+                        Mulai Belanja
+                    </a>
+
+                    <?php if(!isset($_SESSION['user'])): ?>
+                        <a href="<?= base_path('register') ?>"
+                           class="px-8 py-3 border-2 border-emerald-800 text-emerald-800 rounded-lg font-semibold hover:bg-emerald-50">
+                            Daftar Gratis
+                        </a>
                     <?php endif; ?>
                 </div>
             </div>
-        </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div>
-                    <h1 class="text-5xl font-bold mb-6">Belanja Mudah, Aman, Terpercaya</h1>
-                    <p class="text-lg text-slate-200 mb-8">Temukan ribuan produk berkualitas dengan harga terbaik. Pengiriman cepat ke seluruh Indonesia.</p>
-                    <div class="flex gap-4">
-                        <a href="<?= base_path('products') ?>" class="px-8 py-3 bg-white text-slate-900 font-semibold rounded-lg hover:bg-slate-100 transition">
-                            Mulai Belanja
-                        </a>
-                        <?php if(!isset($_SESSION['user'])): ?>
-                            <a href="<?= base_path('register') ?>" class="px-8 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-slate-800 transition">
-                                Daftar Gratis
-                            </a>
-                        <?php endif; ?>
-                    </div>
-                </div>
-                <div class="bg-gradient-to-br from-slate-700 to-slate-600 rounded-lg h-96 flex items-center justify-center">
-                    <span class="text-slate-400 text-lg">Featured Products</span>
+            <!-- VISUAL -->
+            <div class="hidden md:flex justify-end">
+                <div class="w-[420px] h-[420px] rounded-2xl bg-emerald-50 flex items-center justify-center shadow-lg">
+                    <span class="text-emerald-800 font-semibold">
+                        Featured Products
+                    </span>
                 </div>
             </div>
+
         </div>
     </div>
+</section>
 
-    <!-- Features Section -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="text-center">
-                <div class="w-16 h-16 bg-slate-900 text-white rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span class="text-2xl">🚚</span>
+<!-- FEATURES -->
+<section class="py-20">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
+
+            <div>
+                <div class="w-16 h-16 bg-emerald-800 text-white rounded-full flex items-center justify-center mx-auto mb-4">
+                    🚚
                 </div>
-                <h3 class="text-lg font-semibold text-slate-900 mb-2">Pengiriman Cepat</h3>
-                <p class="text-slate-600">Pengiriman ekspres ke seluruh Indonesia dengan tracking real-time</p>
+                <h3 class="font-semibold text-lg mb-2">Pengiriman Cepat</h3>
+                <p class="text-slate-600">Ke seluruh Indonesia</p>
             </div>
 
-            <div class="text-center">
-                <div class="w-16 h-16 bg-slate-900 text-white rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span class="text-2xl">🛡️</span>
+            <div>
+                <div class="w-16 h-16 bg-emerald-800 text-white rounded-full flex items-center justify-center mx-auto mb-4">
+                    🛡️
                 </div>
-                <h3 class="text-lg font-semibold text-slate-900 mb-2">Aman & Terpercaya</h3>
-                <p class="text-slate-600">Transaksi aman dengan enkripsi tingkat bank</p>
+                <h3 class="font-semibold text-lg mb-2">Aman & Terpercaya</h3>
+                <p class="text-slate-600">Pembayaran terenkripsi</p>
             </div>
 
-            <div class="text-center">
-                <div class="w-16 h-16 bg-slate-900 text-white rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span class="text-2xl">💯</span>
+            <div>
+                <div class="w-16 h-16 bg-emerald-800 text-white rounded-full flex items-center justify-center mx-auto mb-4">
+                    💯
                 </div>
-                <h3 class="text-lg font-semibold text-slate-900 mb-2">Produk Original</h3>
-                <p class="text-slate-600">100% produk original dengan garansi resmi</p>
+                <h3 class="font-semibold text-lg mb-2">Produk Original</h3>
+                <p class="text-slate-600">Garansi resmi</p>
             </div>
+
         </div>
     </div>
+</section>
 
-    <!-- CTA Section -->
-    <div class="bg-slate-100 py-16">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl font-bold text-slate-900 mb-4">Siap Belanja Sekarang?</h2>
-            <p class="text-slate-600 mb-8">Jelajahi ribuan produk pilihan dengan harga terbaik</p>
-            <a href="<?= base_path('products') ?>" class="inline-block px-8 py-3 bg-slate-900 text-white font-semibold rounded-lg hover:bg-slate-800 transition">
-                Lihat Semua Produk
-            </a>
-        </div>
+<!-- CTA -->
+<section class="py-20 bg-emerald-50">
+    <div class="text-center max-w-3xl mx-auto px-6">
+        <h2 class="text-3xl font-bold mb-4">
+            Siap Mulai Belanja?
+        </h2>
+        <p class="text-slate-600 mb-8">
+            Temukan produk favoritmu sekarang
+        </p>
+        <a href="<?= base_path('products') ?>"
+           class="px-8 py-3 bg-emerald-800 text-white rounded-lg font-semibold hover:bg-emerald-900">
+            Lihat Produk
+        </a>
     </div>
+</section>
 
-    <!-- Footer -->
-    <footer class="bg-slate-900 text-slate-300 py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-                <div>
-                    <h3 class="text-white font-semibold mb-4">Tentang E-Commerce-App</h3>
-                    <p class="text-sm">Platform e-commerce terpercaya untuk kebutuhan belanja online Anda</p>
-                </div>
-                <div>
-                    <h3 class="text-white font-semibold mb-4">Kategori</h3>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#" class="hover:text-white transition">Elektronik</a></li>
-                        <li><a href="#" class="hover:text-white transition">Fashion</a></li>
-                        <li><a href="#" class="hover:text-white transition">Rumah Tangga</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-white font-semibold mb-4">Bantuan</h3>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#" class="hover:text-white transition">Hubungi Kami</a></li>
-                        <li><a href="#" class="hover:text-white transition">FAQ</a></li>
-                        <li><a href="#" class="hover:text-white transition">Kebijakan</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-white font-semibold mb-4">Kontak</h3>
-                    <ul class="space-y-2 text-sm">
-                        <li>Email: support@ecommerceapp.com</li>
-                        <li>Telp: 0812-3456-7890</li>
-                        <li>Jam: 09:00 - 18:00 WIB</li>
-                    </ul>
-                </div>
-            </div>
+<!-- FOOTER -->
+<footer class="border-t border-slate-200 py-10">
+    <div class="max-w-7xl mx-auto px-6 text-sm text-slate-600 text-center">
+        © 2026 E-Commerce-App. All rights reserved.
+    </div>
+</footer>
 
-            <div class="border-t border-slate-800 pt-8 text-center text-sm">
-                <p>&copy; 2026 E-Commerce-App. Semua hak dilindungi.</p>
-            </div>
-        </div>
-    </footer>
 </body>
 </html>

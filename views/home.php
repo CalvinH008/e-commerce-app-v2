@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Commerce-App</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-white text-slate-800">
@@ -20,15 +21,20 @@
             </a>
 
             <div class="hidden md:flex items-center gap-6 text-sm font-medium">
-
-                <a href="<?= base_path('products') ?>" class="hover:text-emerald-800">
-                    Produk
-                </a>
-
                 <?php if(isset($_SESSION['user'])): ?>
 
-                    <a href="<?= base_path('cart') ?>" class="hover:text-emerald-800">Keranjang</a>
-                    <a href="<?= base_path('dashboard') ?>" class="hover:text-emerald-800">Dashboard</a>
+                    <a href="<?= base_path('cart') ?>"
+                        class="group relative flex items-center gap-2 text-slate-700 hover:text-emerald-800 transition">
+                        <span class="relative flex items-center justify-center
+                                    w-10 h-10 rounded-full
+                                    group-hover:bg-emerald-500
+                                    transition duration-1000">
+                            <i class="bx bx-cart text-2xl"></i>
+                        </span>
+                    </a>
+
+                    <a href="<?= base_path('products') ?>" class="hover:text-emerald-800">Produk</a>
+                    <a href="<?= base_path('dashboard') ?>" class="text-emerald-800 font-semibold">Dashboard</a>
 
                     <?php if($_SESSION['user']['role'] === 'admin'): ?>
                         <a href="<?= base_path('admin/dashboard') ?>" class="hover:text-emerald-800">Admin</a>

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keranjang Belanja</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 </head>
 <body class="bg-white text-slate-800">
     <!-- Navigation Header -->
@@ -15,7 +16,16 @@
                     <img src="<?= base_path('images/logo.png') ?>" alt="Logo" class="h-8 w-8">
                     <span class="text-xl font-bold text-emerald-800">E-Commerce-App</span>
                 </a>
-                <div class="flex gap-6 text-sm font-medium">
+                <div class="flex items-center gap-6 text-sm font-medium">
+                     <a href="<?= base_path('cart') ?>"
+                        class="group flex items-center text-emerald-800">
+                            <span class="flex items-center justify-center
+                                        w-10 h-10 rounded-full
+                                        bg-emerald-700 text-white
+                                        ring-emerald-300">
+                                <i class="bx bx-cart text-2xl"></i>
+                            </span>
+                        </a>
                     <a href="<?= base_path('products') ?>" class="hover:text-emerald-800">Produk</a>
                     <a href="<?= base_path('dashboard') ?>" class="hover:text-emerald-800">Dashboard</a>
                 </div>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar - E-Commerce</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-white text-slate-800">
@@ -36,7 +37,7 @@
 
                 <form method="POST" action="<?= base_path('register') ?>" class="space-y-5">
                     <div>
-                        <label for="username" class="block text-sm font-medium text-slate-700 mb-2">Username</label>
+                        <label for="username" class="block text-sm font-medium text-slate-700 mb-2"><i class="bx bx-user"></i> Username</label>
                         <input 
                             type="text" 
                             name="username" 
@@ -48,7 +49,7 @@
                     </div>
 
                     <div>
-                        <label for="email" class="block text-sm font-medium text-slate-700 mb-2">Email</label>
+                        <label for="email" class="block text-sm font-medium text-slate-700 mb-2"><i class='bx  bx-envelope'></i> Email</label>
                         <input 
                             type="email" 
                             name="email" 
@@ -60,7 +61,7 @@
                     </div>
 
                     <div>
-                        <label for="password" class="block text-sm font-medium text-slate-700 mb-2">Password</label>
+                        <label for="password" class="block text-sm font-medium text-slate-700 mb-2"><i class="bx bx-lock"></i> Password</label>
                         <input 
                             type="password" 
                             name="password" 
